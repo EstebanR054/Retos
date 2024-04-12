@@ -6,18 +6,39 @@ let primerResultado = null;
 let segundoResultado = null;
 let movimientos = 0;
 let aciertos = 0;
+let temporizador = false;
+let timer = 3;
+let tiempoRegresivoId = null;
 
-//Apuntando a documento HTML
+// Apuntando a documento HTML
 let mostrarMovimientos = document.getElementById('movimientos');
 let mostrarAciertos = document.getElementById('aciertos');
+let mostrarTiempo = document.getElementById('t-restante');
 
-//Generaciones de números aleatorios
+// Generaciones de números aleatorios
 let numeros = [1,1,2,2,3,3,4,4,5,5,6,6,7,7,8,8];
 numeros = numeros.sort(()=>{return Math.random()-0.5});
 console.log(numeros);
 
+// Funciones
+function contarTiempo(){
+    tiempoRegresivoId = setInterval(()=>{
+        timer--;
+        mostrarTiempo.innerHTML = `Tiempo: ${timer} segundos`;
+        if(timer == 0){
+            clearInterval(tiempoRegresivoId);
+        }
+    },1000);
+}
+
 // Funcion principal
 function destapar(id){
+
+    if(temporizador == false){
+        contarTiempo();
+        temporizador = true;
+    }
+
     tarjetasDestapadas++;
     console.log(tarjetasDestapadas);
 
