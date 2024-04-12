@@ -7,7 +7,8 @@ let segundoResultado = null;
 let movimientos = 0;
 let aciertos = 0;
 let temporizador = false;
-let timer = 3;
+let timer = 30;
+let timerInicial = 30;
 let tiempoRegresivoId = null;
 
 // Apuntando a documento HTML
@@ -27,8 +28,17 @@ function contarTiempo(){
         mostrarTiempo.innerHTML = `Tiempo: ${timer} segundos`;
         if(timer == 0){
             clearInterval(tiempoRegresivoId);
+            bloquearTarjetas();
         }
     },1000);
+}
+
+function bloquearTarjetas(){
+    for (let i = 0; i<=15; i++){
+        let tarjetaBloqueada = document.getElementById(i);
+        tarjetaBloqueada.innerHTML = numeros[i];
+        tarjetaBloqueada.disabled = true;
+    }
 }
 
 // Funcion principal
@@ -72,7 +82,9 @@ function destapar(id){
             mostrarAciertos.innerHTML = `Aciertos: ${aciertos}`;
             
             if(aciertos == 8){
-                mostrarAciertos.innerHTML = `Aciertos: ${aciertos} 😱`
+                clearInterval(tiempoRegresivoId);
+                mostrarAciertos.innerHTML = `Aciertos: ${aciertos} 😱`;
+                mostrarTiempo.innerHTML = `Fantástico! 🎉 Sólo demoraste ${timerInicial - timer} segundos`
                 mostrarMovimientos.innerHTML = `Movimientos: ${movimientos} 🤟😎`
             }
 
@@ -84,7 +96,7 @@ function destapar(id){
                 tarjeta1.disabled = false;
                 tarjeta2.disabled = false;
                 tarjetasDestapadas = 0;
-        },2000);
+        },800);
         }
     }
 }
